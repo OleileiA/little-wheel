@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="data.js"></script>
+  <style>
+    li {
+      list-style: none;
+    }
+
+    #list ul {
+      display: none;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      //生成结构
+      var list = document.getElementById("list");
+      create(menuData, list);
+      //这个函数是用来创建li的
+      function create(data, parent) {
+        for (var i = 0; i < data.length; i++) {
+          var li = document.createElement('li');
+          var h2 = document.createElement('h2');
+
+          h2.innerHTML = data[i].name;
+          li.appendChild(h2);
+
+          //直接赋值的话，函数里的this就指向前面的主语
+          h2.onclick = h2Click;
+
+          //在这里创建ul
+          if (data[i].content) {
+            //这个条件成立说明，有嵌套的数据，要创建ul
+            var ul = document.createElement("ul");
+            create(data[i].content, ul);
+
+            li.appendChild(ul);
+          }
+
+          parent.appendChild(li);
+        }
+      }
+
+      function h2Click() {
+
+        /*
+         * 生成结构的时候
+         * 能够展开的标签为h2 挨着 ul
+         * 如果没有相邻的兄弟元素
+         * 可以直接返回
+         * */
+
+        if (!this.nextElementSibling) {
+          return false;
+        }
+
+        //当前点击的下一个兄弟节点里的所有ul
+        var uls = this.nextElementSibling.querySelectorAll('ul');
+
+        //选项卡的原理，一上来让全部的都隐藏，
+        //让兄弟节点下面的所有ul隐藏的隐藏
+        for (var i = 0; i < uls.length; i++) {
+          uls[i].style.display = ' none';
+        }
+
+        /*
+         * 这里注释的内容实现了同时只能打开一条分支的语句(根据需求可以去掉)
+         * 如果点击的是第一层菜单，就让所有兄弟元素ul都隐藏
+         * */
+
+        if(this.parentNode.parentNode.id == 'list'){
+            var otherLis = siblings(this.parentNode);
+            console.log(otherLis);
+            for(var i = 0;i < otherLis.length;i++){
+              var sonUl = otherLis[i].querySelectorAll('ul');
+              console.log(sonUl);
+              for(var l = 0; l < sonUl.length;l++){
+                sonUl[l].style.display = 'none';
+              }
+            }
+        }
+
+        change.call(this);
+        function change() {
+
+          if (this.nextElementSibling.style.display == 'block') {
+            this.nextElementSibling.style.display = 'none';
+//            console.log(1);
+          } else {
+            this.nextElementSibling.style.display = 'block';
+//            console.log(2);
+          }
+        }
+
+        /*
+        * 获取所有兄弟元素*/
+        function siblings(elm) {
+          var a = [];
+          var p = elm.parentNode.children;
+          for (var i = 0, pl = p.length; i < pl; i++) {
+            if (p[i] !== elm) a.push(p[i]);
+          }
+          return a;
+        }
+
+      }
+    };
+  </script>
+</head>
+<body>
+<ul id="list">
+
+</ul>
+</body>
+</html>
