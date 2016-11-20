@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+<style>
+#div1{
+	width:100px;
+	height: 100px;
+	background: red;
+	position: absolute;
+	top:0;
+	left:0;
+}
+#div2{
+	width:100px;
+	height: 100px;
+	background: blue;
+	position: absolute;
+	top:300px;
+	left:300px;
+}
+</style>
+</head>
+<body>
+	<div id="div1"></div>
+	<div id="div2"></div>
+<script type="text/javascript">
+	var div1 = document.getElementById('div1');
+	var div2 = document.getElementById('div2');
+	Drag({
+		
+		obj1:div1,
+		obj2:div2,
+		BongCallBack:function(){
+			div2.style.background = 'pink';
+		},
+		NoBongCallBack:function(){
+			div2.style.background = 'blue';
+		}
+		
+		
+	});
+	function Drag(json){
+		
+		/*
+			设置一个默认参数，如果外面传入需要的参数，就走传进来的参数，如果没有传走默认参数 
+		*/
+		var settings = {
+			obj1:json.obj1 || null,
+			obj2:json.obj2 || null,
+			BongCallBack:json.BongCallBack || function(){},
+			NoBongCallBack:json.NoBongCallBack || function(){}
+		};
+		
+		var disX = 0;
+		var disY = 0;
+		settings.obj1.addEventListener('mousedown',fnDown);
+		
+		function fnDown(ev){
+			disX = ev.pageX - settings.obj1.offsetLeft;
+			disY = ev.pageY - settings.obj1.offsetTop;
+			
+			document.addEventListener('mousemove',fnMove);
+			
+			document.addEventListener('mouseup',fnUp);
+			
+			ev.preventDefault();
+		}
+		
+		function fnMove(ev){
+			
+			/*
+				如果传入两个对象就可以检测碰撞了（如果只传一个对象就不会检测碰撞） 
+			*/
+
+			settings.obj1.style.left = ev.pageX - disX + 'px';
+			settings.obj1.style.top = ev.pageY - disY + 'px';
+			
+			if(settings.obj2){
+				//已经碰撞到的就走下面的代码
+				if(Bong(settings.obj1,settings.obj2)){
+					settings.BongCallBack();
+				}else{
+					settings.NoBongCallBack();
+				}
+			}
+		}
+		function fnUp(){
+			document.removeEventListener('mousemove',fnMove);
+			document.removeEventListener('mouseup',fnUp);
+		}
+	}
+	function Bong(obj1,obj2){
+		var l1 = obj1.offsetLeft;
+		var t1 =  obj1.offsetTop;
+		var b1 = t1 + obj1.offsetHeight;
+		var r1 = l1 + obj1.offsetWidth;
+
+		var l2 = obj2.offsetLeft;
+		var t2 = obj2.offsetTop;
+		var b2 = t2 + obj2.offsetHeight;
+		var r2 = l2 + obj2.offsetWidth;
+
+		if(r1 < l2 || b1 < t2 || l1 > r2 || t1 > b2){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	
+	
+	
+</script>
+</body>
+</html>
