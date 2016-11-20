@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width: 100px;
+				height: 100px;
+				background: #f00;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+		<script>
+			window.onload=function(){
+				var box=document.getElementById("box");
+				
+				var key={
+					37:false,
+					38:false,
+					39:false,
+					40:false
+				};
+				
+				document.onkeydown=function(ev){
+					key[ev.keyCode]=true;
+				};
+				
+				document.onkeyup=function(ev){
+					key[ev.keyCode]=false;
+				};
+				
+				var timer=setInterval(function(){
+					if(key[37]){
+						box.style.left=box.offsetLeft-5+'px';
+					}
+					
+					if(key[38]){
+						box.style.top=box.offsetTop-5+'px';
+					}
+					
+					if(key[39]){
+						box.style.left=box.offsetLeft+5+'px';
+					}
+					
+					if(key[40]){
+						box.style.top=box.offsetTop+5+'px';
+					}
+
+				},16);
+			};
+		</script>
+	</head>
+	<body>
+		<div id="box"></div>
+	</body>
+</html>
