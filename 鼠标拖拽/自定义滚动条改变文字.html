@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+<style>
+html,body{
+	overflow-y: hidden;
+}
+#div1{
+	width:30px;
+	height: 300px;
+	background: #000;
+	position: relative;
+}
+#div2{
+	width:30px;
+	height:30px;
+	background: red;
+	position: absolute;
+	top:0;
+	left:0;
+}
+#div3{
+	width:300px;
+	height: 300px;
+	border: 1px solid #000;
+	position: relative;
+	top:-300px;
+	left:48px;
+	overflow: hidden;
+}
+#div4{
+	position: absolute;
+	top:0;
+	left:0;
+}
+#div4 *{
+	padding: 0;
+	margin: 0;
+}
+
+</style>
+</head>
+<body>
+	<div id="div1">
+		<div id="div2"></div>
+	</div>
+	<div id="div3">
+		<div id="div4">
+			<dl>
+                            <dt style="top: 0px; background-color: rgb(241, 244, 249);">第四章：字符串和数组、JSON、for in、Math对象、mTweenPlus实现</dt>
+
+                            <dd><i class="sj"></i><i class="dot"></i>4.1 - 字符串</dd>
+                            <dd>4.1.1 - 字符串的格式</dd>
+                            <dd>4.1.2 - length</dd>
+                            <dd>4.1.3 - charAt</dd>
+                            <dd>4.1.4 - charCodeAt</dd>
+                            <dd>4.1.5 - indexOf</dd>
+                            <dd>4.1.6 - lastIndexOf</dd>
+                            <dd>4.1.7 - slice</dd>
+                            <dd>4.1.8 - split</dd>
+                            <dd>4.1.9 - substring</dd>
+                            <dd>4.1.10 - toLowerCase</dd>
+                            <dd>4.1.11 - toUpperCase</dd>
+                            <dd>4.1.12 - trim</dd>
+
+                            <dd><i class="dot"></i>4.2 - json和对象</dd>
+                            <dd>4.2.1 - JSON(JavaScript Object Notation)</dd>
+                            <dd>4.2.2 - JSON规则</dd>
+                            <dd>4.2.3 - JSON用途</dd>
+                            <dd>4.2.4 - JSON操作方法</dd>
+                            <dd>4.2.5 - object JSON.paser(string)</dd>
+                            <dd>4.2.6 - string JSON.stringify(object)</dd>
+
+                            <dd><i class="dot"></i>4.3 - 对象遍历 - for in</dd>
+                            <dd>4.3.1 - for in的语法格式</dd>
+                            <dd>4.3.2 - MTweenPlus - MTP</dd>
+
+                            <dd><i class="dot"></i>4.4 - Math对象</dd>
+                            <dd>4.4.1 - Math.ceil</dd>
+                            <dd>4.4.2 - Math.floor</dd>
+                            <dd>4.4.3 - Math.round</dd>
+                            <dd>4.4.4 - Math.abs</dd>
+                            <dd>4.4.5 - Math.random</dd>
+                            <dd>4.4.6 - 常用随机公式</dd>
+
+                            <dd><i class="dot"></i>4.5 - 数组的方法</dd>
+                            <dd>4.5.1 - arr.length</dd>
+                            <dd>4.5.2 - arr.push()</dd>
+                            <dd>4.5.3 - arr.unshift()</dd>
+                            <dd>4.5.4 - arr.pop()</dd>
+                            <dd>4.5.5 - arr.shift()</dd>
+                            <dd>4.5.6 - arr.forEach()</dd>
+                            <dd>4.5.7 - arr.sort()</dd>
+                            <dd>4.5.8 - arr.concat()</dd>
+                            <dd>4.5.9 - arr.reverse()</dd>
+                            <dd>4.5.10 - arr.join()</dd>
+                            <dd>4.5.11 - arr.slice()</dd>
+                            <dd>4.5.12 - arr.splice()</dd>
+                            <dd>4.5.13 - 冒泡排序算法</dd>
+                            <dd>4.5.14 - 快速排序算法</dd>
+                            <dd>4.5.15 - 数组去重</dd>
+
+                            <dd><i class="dot"></i>本章节案例&amp;练习：</dd>
+                            <dd>
+                                <a style="color:rgb(68, 186, 200); text-decoration:underline;" href="http://www.miaov.com/2016/courseImg/js4/js4-1-z.html" target="_blank">&gt;&gt; 随机打乱图片</a>
+                            </dd>
+                            <dd>
+                                <a style="color:rgb(68, 186, 200); text-decoration:underline;" href="http://www.miaov.com/2016/courseImg/js4/js4-2-z.html" target="_blank">&gt;&gt; 查找替换文字</a>
+                            </dd>
+                            <dd>
+                                <a style="color:rgb(68, 186, 200); text-decoration:underline;" href="http://www.miaov.com/2016/courseImg/js4/js4-3-z.html" target="_blank">&gt;&gt; 文字搬运工</a>
+                            </dd>
+                            <dd>
+                                <a style="color:rgb(68, 186, 200); text-decoration:underline;" href="http://www.miaov.com/2016/courseImg/js4/js4-4-z.html" target="_blank">&gt;&gt; 消除表情小游戏</a>
+                            </dd>
+
+                        </dl>
+		</div>
+	</div>
+<script type="text/javascript">
+	var div1 = document.getElementById('div1');
+	var div2 = document.getElementById('div2');
+	var div3 = document.getElementById('div3');
+	var div4 = document.getElementById('div4');
+	
+	var disY = 0;
+	div2.addEventListener('mousedown',fnDown);
+	
+	function fnDown(ev){
+		disY = ev.pageY - div2.offsetTop;
+		
+		document.addEventListener('mousemove',fnMove);
+		document.addEventListener('mouseup',fnUp);
+		
+		ev.preventDefault();
+	}
+	
+	function fnMove(ev){
+		var t = ev.pageY - disY;
+		if(t<0){
+			t = 0;
+		}else if(t > div1.offsetHeight - div2.offsetHeight){
+			t = div1.offsetHeight - div2.offsetHeight;
+		}
+		div2.style.top = t + 'px';
+		var scale = t / (div1.offsetHeight - div2.offsetHeight);
+		div4.style.top = (div3.offsetHeight-div4.scrollHeight) * scale + 'px';
+	}
+	
+	
+	function fnUp(){
+		document.removeEventListener('mousemove',fnMove);
+		document.removeEventListener('mouseup',fnUp);
+	}
+	
+	
+	
+</script>
+</body>
+</html>
