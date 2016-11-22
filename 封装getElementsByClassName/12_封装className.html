@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<ul id="ul1">
+		<li class="li1"></li>
+		<li></li>
+		<li class="li1"></li>
+	</ul>
+	<div>
+		<ul id="ul2">
+			<li class="li2 li3 li1"></li>
+			<li></li>
+			<li class="li1"></li>
+		</ul>
+	</div>
+<script type="text/javascript">
+	
+	var ul1 = document.getElementById('ul1');
+
+	/*
+		 sClass : 要找的class名字
+		 
+		 parent :  某个元素下去查找className 
+	*/
+
+	function getByClass(sClass,parent){
+		
+		/*
+			如果传了第二个参数，就从这个参数下面去查找class||元素 
+		*/
+		parent = parent || document;
+		
+		/*
+			如果高版本支持 getElementsByClassName 就走高版本的
+			getElementsByClassName
+			
+			高版getElementsByClassName为真
+			低版本getElementsByClassName为undefined（假）
+			
+			否则：
+				走低版本的那一套。
+		*/
+		if(parent.getElementsByClassName){
+			
+			return parent.getElementsByClassName(sClass);
+		}else{
+			//alert(2);
+			var aEle = parent.getElementsByTagName('*');
+			var arr = []; 
+			for(var i=0;i<aEle.length;i++){
+				var re = new RegExp('\\b'+sClass+'\\b','g');
+				if(re.test(aEle[i].className)){
+					arr.push(aEle[i]);
+				}
+			}
+			return arr;
+		}
+	}
+	var li = getByClass('li1',ul1);
+	console.log(li);
+	for(var i=0;i<li.length;i++){
+		li[i].style.backgroundColor = 'red';
+	}
+</script>
+</body>
+</html>
